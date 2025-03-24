@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+// const mongoose = require('mongoose');
 
 require('dotenv').config();
 
@@ -13,22 +13,33 @@ require('dotenv').config();
  * DB_STRING=mongodb://<user>:<password>@localhost:27017/database_name
  */ 
 
-const conn = process.env.DB_STRING;
+// const conn = process.env.DB_STRING;
 
-const connection = mongoose.createConnection(conn, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-});
+// const connection = mongoose.createConnection(conn, {
+//     useNewUrlParser: true,
+//     useUnifiedTopology: true
+// });
 
 // Creates simple schema for a User.  The hash and salt are derived from the user's given password when they register
-const UserSchema = new mongoose.Schema({
-    username: String,
-    hash: String,
-    salt: String
-});
+// const UserSchema = new mongoose.Schema({
+//     username: String,
+//     hash: String,
+//     salt: String
+// });
 
 
-const User = connection.model('User', UserSchema);
+// const User = connection.model('User', UserSchema);
+
+const { Pool } = require("pg");
+
+module.exports = new Pool({
+    host: process.env.HOST, // or wherever the db is hosted
+    user: process.env.USER,
+    database: process.env.DATABASE,
+    password: process.env.PASSWORD,
+    port: process.env.DB_PORT
+  });
+  
 
 // Expose the connection
-module.exports = connection;
+// module.exports = connection;
