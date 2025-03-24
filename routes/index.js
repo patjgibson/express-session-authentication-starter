@@ -8,7 +8,13 @@ const pool = require("../db/pool");
  */
 
 // TODO
-router.post("/login", passport.authenticate("local"), (req, res, next) => {});
+router.post(
+  "/login",
+  passport.authenticate("local", {
+    failureRedirect: "/login-failure",
+    successRedirect: "login-success",
+  })
+);
 
 // TODO
 router.post("/register", (req, res, next) => {
@@ -21,7 +27,7 @@ router.post("/register", (req, res, next) => {
     .query("INSERT INTO users (username, hash, salt) VALUES ($1, $2, $3)", [
       req.body.username,
       hash,
-      salt,
+      salt
     ])
     .then(() => {
       console.log(

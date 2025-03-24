@@ -1,10 +1,10 @@
 require('dotenv').config();
+
 const express = require('express');
 const session = require('express-session');
 var passport = require('passport');
 var crypto = require('crypto');
 var routes = require('./routes');
-const pool = require("./db/pool");
 
 /**
  * -------------- GENERAL SETUP ----------------
@@ -23,6 +23,7 @@ app.use(express.urlencoded({extended: true}));
  * -------------- SESSION SETUP ----------------
  */
 
+const pool = require("./db/pool");
 app.use(session({secret: "cats", resave: false, saveUninitialized: false }));
 
 /**
@@ -30,7 +31,15 @@ app.use(session({secret: "cats", resave: false, saveUninitialized: false }));
  */
 
 require('./config/passport');
+
+app.use(passport.initialize());
 app.use(passport.session());
+
+app.use((req, res, next) => {
+    console.log(req.session);
+    console.log(req.user);
+    next();
+})
 
 
 /**
