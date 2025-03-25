@@ -38,6 +38,9 @@ app.use(passport.session());
 app.use((req, res, next) => {
     console.log(req.session);
     console.log(req.user);
+    if (req.user) {
+        // console.log("Is admin: " + req.user.rows[0].admin);
+    }
     next();
 })
 
